@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>방송 체크</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="page">
+    <header class="top">
+      <div>
+        <h1>방송 체크</h1>
+        <p class="sub">등록한 스트리머가 지금 방송 중인지 한눈에 확인해요</p>
+      </div>
+      <div class="top-actions">
+        <span id="updated" class="updated"></span>
+        <button id="refresh" class="btn btn-quiet" type="button">새로고침</button>
+      </div>
+    </header>
+
+    <section class="add" aria-label="스트리머 추가">
+      <form id="add-form" autocomplete="off">
+        <div class="seg" role="group" aria-label="플랫폼 선택">
+          <button type="button" data-platform="chzzk" aria-pressed="true">치지직</button>
+          <button type="button" data-platform="soop" aria-pressed="false">SOOP</button>
+        </div>
+        <input id="add-input" type="text" aria-label="스트리머 이름, 아이디 또는 채널 주소" required>
+        <button id="add-btn" class="btn" type="submit">추가</button>
+      </form>
+      <p id="hint" class="hint"></p>
+      <p id="message" class="message" role="status"></p>
+      <ul id="search-results" class="search-results" hidden></ul>
+    </section>
+
+    <div id="load-error" class="banner" role="alert" hidden></div>
+
+    <section id="live-section" aria-labelledby="live-heading" hidden>
+      <h2 id="live-heading">방송 중 <span id="live-count" class="count"></span></h2>
+      <div id="live-grid" class="live-grid"></div>
+    </section>
+
+    <section id="offline-section" aria-labelledby="offline-heading" hidden>
+      <h2 id="offline-heading">오프라인 <span id="offline-count" class="count"></span></h2>
+      <ul id="offline-list" class="offline-list"></ul>
+    </section>
+
+    <div id="empty" class="empty" hidden>
+      <p class="empty-title">아직 등록한 스트리머가 없어요</p>
+      <p>위에서 치지직 또는 SOOP 스트리머를 추가하면 방송 상태가 여기에 표시돼요.</p>
+    </div>
+  </div>
+  <script src="core.js"></script>
+  <script src="backend.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
