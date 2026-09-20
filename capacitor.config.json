@@ -1,0 +1,13 @@
+{
+  "appId": "com.streamertracker.app",
+  "appName": "방송 체크",
+  "webDir": "www",
+  "server": {
+    "androidScheme": "https"
+  },
+  "plugins": {
+    "CapacitorHttp": {
+      "enabled": true
+    }
+  }
+}
