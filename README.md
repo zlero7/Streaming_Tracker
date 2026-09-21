@@ -12,6 +12,7 @@ public/app.js|style.css|index.html   화면
 server.js            로컬 서버 (웹/exe용)
 electron/main.js     Windows exe (Electron이 server.js를 내부에서 실행)
 android/             Android 앱 (Capacitor)
+mobile/runner.js     Android 백그라운드 러너 (방송 시작 알림)
 capacitor.config.json / scripts/    모바일 앱 설정, 웹 파일 복사 스크립트
 .github/workflows/build.yml         exe / APK 자동 빌드
 ```
@@ -56,6 +57,15 @@ npm run mobile:open    # Android Studio 열기 → Build > Build APK(s)
 레포에 올린 뒤 Actions 탭 → `앱 빌드` → Run workflow (또는 `v1.0.0` 같은 태그 푸시).
 끝나면 실행 결과의 Artifacts에서 `android-apk`(APK)와 `windows-exe`를 받을 수 있어요.
 
+### 방송 시작 알림 (Android 앱)
+
+앱을 처음 열면 상단에 알림 안내가 떠요. **알림 허용**을 누르면, 앱을 닫아도 Android가 약 15분마다 백그라운드에서 등록한 스트리머를 확인하고 방송이 시작된 순간 알림을 보내요.
+
+- 15분은 Android가 허용하는 최소 간격이에요. 배터리 상태에 따라 더 늦어질 수 있어요.
+- 알림이 잘 안 오면 폰 설정에서 이 앱의 배터리 사용을 **제한 없음**으로 바꿔주세요. 삼성·샤오미 등 일부 제조사는 백그라운드 앱을 추가로 종료해서 [dontkillmyapp.com](https://dontkillmyapp.com) 안내가 필요할 수 있어요.
+- 오프라인이던 스트리머가 방송 중으로 바뀐 순간에만 알려요. 이미 화면에서 본 방송, 방송이 잠깐 끊겼다 이어진 경우(30분 이내)에는 다시 알리지 않아요.
+- 동작 원리: 화면이 등록 목록을 러너(`mobile/runner.js`)에 넘겨두고, 러너가 주기적으로 조회해서 상태가 바뀌면 알림을 보내요. 웹/exe에서는 이 기능이 없어요.
+
 APK는 디버그 서명이라 폰에서 "출처를 알 수 없는 앱 설치"를 허용해야 설치돼요. Play 스토어 배포용 서명 빌드는 따로 설정이 필요해요.
 
 ## 참고
@@ -64,3 +74,4 @@ APK는 디버그 서명이라 폰에서 "출처를 알 수 없는 앱 설치"를
 - 같은 스트리머는 15초 동안 캐시해서 상대 서버에 요청이 몰리지 않게 했어요.
 - SOOP은 스테이션 API를 우선 쓰고, 실패하면 플레이어 API로 대체해요(이 경우 시청자 수는 `-`).
 - iOS 앱은 Mac이 있어야 빌드할 수 있어서 포함하지 않았어요.
+- 러너(`mobile/runner.js`)는 앱 화면과 별개의 환경에서 돌아서 `core.js`를 못 써요. 그래서 조회 주소가 `core.js`와 러너에 각각 있으니, API가 바뀌면 둘 다 고쳐야 해요.

@@ -221,6 +221,7 @@ async function load() {
     state.streamers = await backend.list();
     state.lastUpdated = new Date();
     $('#load-error').hidden = true;
+    notifier.sync(state.streamers);
   } catch (err) {
     $('#load-error').textContent = `목록을 불러오지 못했어요. ${err.message}`;
     $('#load-error').hidden = false;
@@ -270,6 +271,30 @@ async function removeStreamer(streamer) {
   }
 }
 
+/* ---------- 방송 시작 알림 안내 (앱 전용) ---------- */
+
+async function renderNotifyBar() {
+  if (!notifier.supported) return;
+  const permission = await notifier.permission();
+  const text = $('#notify-text');
+  const sub = $('#notify-sub');
+  const button = $('#notify-btn');
+
+  $('#notify-bar').hidden = false;
+  button.hidden = permission !== 'prompt' && permission !== 'unknown';
+
+  if (permission === 'granted') {
+    text.textContent = '방송이 시작되면 알림을 보내드려요';
+    sub.textContent = '앱을 닫아도 15분 안팎으로 확인해요. 알림이 늦으면 폰 배터리 설정에서 이 앱을 제한 없음으로 바꿔주세요.';
+  } else if (permission === 'denied') {
+    text.textContent = '알림이 꺼져 있어요';
+    sub.textContent = '폰 설정 → 앱 → 방송 체크 → 알림에서 켜주세요.';
+  } else {
+    text.textContent = '방송 시작 알림을 받으려면 알림 권한이 필요해요';
+    sub.textContent = '';
+  }
+}
+
 /* ---------- 이벤트 ---------- */
 
 function selectPlatform(platform) {
@@ -314,6 +339,10 @@ for (const button of document.querySelectorAll('.seg button')) {
 }
 $('#add-form').addEventListener('submit', onSubmit);
 $('#refresh').addEventListener('click', load);
+$('#notify-btn').addEventListener('click', async () => {
+  await notifier.request();
+  await renderNotifyBar();
+});
 
 // 탭이 보일 때만 주기적으로 갱신한다
 setInterval(() => {
@@ -324,4 +353,5 @@ document.addEventListener('visibilitychange', () => {
 });
 
 selectPlatform('chzzk');
+renderNotifyBar();
 load();

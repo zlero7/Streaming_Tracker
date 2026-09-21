@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <application
         android:allowBackup="true"
@@ -22,6 +23,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
 
+            <!-- 방송 시작 알림을 누르면 앱이 열리도록 -->
+            <intent-filter>
+                <action android:name=".NOTIFICATION_CLICKED" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+
         </activity>
 
         <provider
@@ -38,4 +45,9 @@
     <!-- Permissions -->
 
     <uses-permission android:name="android.permission.INTERNET" />
+
+    <!-- 백그라운드 러너 플러그인이 기본으로 넣는 위치 권한은 쓰지 않으므로 제거 -->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" tools:node="remove" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" tools:node="remove" />
+    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" tools:node="remove" />
 </manifest>

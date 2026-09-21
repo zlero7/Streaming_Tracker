@@ -20,6 +20,14 @@
       </div>
     </header>
 
+    <div id="notify-bar" class="notify" hidden>
+      <div>
+        <p id="notify-text" class="notify-text"></p>
+        <p id="notify-sub" class="notify-sub"></p>
+      </div>
+      <button id="notify-btn" class="btn btn-quiet btn-small" type="button" hidden>알림 허용</button>
+    </div>
+
     <section class="add" aria-label="스트리머 추가">
       <form id="add-form" autocomplete="off">
         <div class="seg" role="group" aria-label="플랫폼 선택">
@@ -53,6 +61,7 @@
   </div>
   <script src="core.js"></script>
   <script src="backend.js"></script>
+  <script src="notify.js"></script>
   <script src="app.js"></script>
 </body>
 </html>

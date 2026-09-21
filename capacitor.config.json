@@ -8,6 +8,14 @@
   "plugins": {
     "CapacitorHttp": {
       "enabled": true
+    },
+    "BackgroundRunner": {
+      "label": "com.streamertracker.app.check",
+      "src": "runners/runner.js",
+      "event": "checkStreamers",
+      "repeat": true,
+      "interval": 15,
+      "autoStart": true
     }
   }
 }

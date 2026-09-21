@@ -93,6 +93,22 @@ h1 { margin: 0; font-size: 24px; font-weight: 700; letter-spacing: -0.02em; }
 }
 .link-btn:hover { color: var(--live); }
 
+/* 방송 시작 알림 안내 (앱 전용) */
+.notify {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 12px;
+  padding: 12px 16px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+}
+.notify-text { margin: 0; font-size: 14px; font-weight: 500; }
+.notify-sub { margin: 2px 0 0; color: var(--muted); font-size: 12px; }
+.notify-sub:empty { display: none; }
+
 /* 추가 영역 */
 .add {
   background: var(--surface);
